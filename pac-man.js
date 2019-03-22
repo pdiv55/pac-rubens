@@ -144,6 +144,7 @@ var ghost2 = new Ghost(8, 3, 10);
 var ghost3 = new Ghost(10, 20, 10);
 var pauseStatus = true;
 var startStatus = false;
+var gameOverStatus = false;
 var begginingSound = document.querySelector('#beggining-sound');
 var chompSound = document.querySelector('#chomp-sound');
 var deathSound = document.querySelector('#death-sound');
@@ -381,7 +382,7 @@ window.onload = function () {
         var code = e.keyCode;
 
         if (code == '32') {
-            if (pauseStatus === false) {
+            if (pauseStatus === false && gameOverStatus === false) {
                 document.querySelector(".alert").innerHTML = "Game paused";
                 pauseStatus = true;
                 clearInterval(intGhost1Up);
@@ -400,7 +401,7 @@ window.onload = function () {
             }
         }
         else if (code == '13') {
-            if (startStatus === false) {
+            if (startStatus === false && gameOverStatus === false) {
 
                 var pacdog = new PacDog(store);
                 updateGrid(pacdog.grid);
@@ -428,7 +429,7 @@ window.onload = function () {
                 return false;
             }
         }
-        else if (pauseStatus === false) {
+        else if (pauseStatus === false && gameOverStatus === false) {
             if (code == '38') {
                 rubens.moveUp();
             }
@@ -566,25 +567,26 @@ function ghostUpOrDown(ghost, dog) {
             if (isObstacleGhost(store, ghostX, ghostY + 1) === false) {
                 ghost.moveDown();
             }
-        } else if (ghostY === dogY) {
-            if (randomNumber === 0) {
-                if (isObstacleGhost(store, ghostX, ghostY - 1) === false) {
-                    ghost.moveUp();
-                }
-            } else if (randomNumber === 1) {
-                if (isObstacleGhost(store, ghostX, ghostY + 1) === false) {
-                    ghost.moveDown();
-                }
-            } else if (randomNumber === 2) {
-                if (isObstacleGhost(store, ghostX + 1, ghostY) === false) {
-                    ghost.moveRight();
-                }
-            } else if (randomNumber === 3) {
-                if (isObstacleGhost(store, ghostX - 1, ghostY) === false) {
-                    ghost.moveLeft();
-                }
-            }
-        }
+        } 
+        // else if (ghostY === dogY) {
+        //     if (randomNumber === 0) {
+        //         if (isObstacleGhost(store, ghostX, ghostY - 1) === false) {
+        //             ghost.moveUp();
+        //         }
+        //     } else if (randomNumber === 1) {
+        //         if (isObstacleGhost(store, ghostX, ghostY + 1) === false) {
+        //             ghost.moveDown();
+        //         }
+        //     } else if (randomNumber === 2) {
+        //         if (isObstacleGhost(store, ghostX + 1, ghostY) === false) {
+        //             ghost.moveRight();
+        //         }
+        //     } else if (randomNumber === 3) {
+        //         if (isObstacleGhost(store, ghostX - 1, ghostY) === false) {
+        //             ghost.moveLeft();
+        //         }
+        //     }
+        // }
     }
 }
 
@@ -603,25 +605,26 @@ function ghostRightOrLeft(ghost, dog) {
             if (isObstacleGhost(store, ghostX - 1, ghostY) === false) {
                 ghost.moveLeft();
             }
-        } else if (ghostX === dogX) {
-            if (randomNumber === 0) {
-                if (isObstacleGhost(store, ghostX, ghostY - 1) === false) {
-                    ghost.moveUp();
-                }
-            } else if (randomNumber === 1) {
-                if (isObstacleGhost(store, ghostX, ghostY + 1) === false) {
-                    ghost.moveDown();
-                }
-            } else if (randomNumber === 2) {
-                if (isObstacleGhost(store, ghostX + 1, ghostY) === false) {
-                    ghost.moveRight();
-                }
-            } else if (randomNumber === 3) {
-                if (isObstacleGhost(store, ghostX - 1, ghostY) === false) {
-                    ghost.moveLeft();
-                }
-            }
-        }
+        } 
+        // else if (ghostX === dogX) {
+        //     if (randomNumber === 0) {
+        //         if (isObstacleGhost(store, ghostX, ghostY - 1) === false) {
+        //             ghost.moveUp();
+        //         }
+        //     } else if (randomNumber === 1) {
+        //         if (isObstacleGhost(store, ghostX, ghostY + 1) === false) {
+        //             ghost.moveDown();
+        //         }
+        //     } else if (randomNumber === 2) {
+        //         if (isObstacleGhost(store, ghostX + 1, ghostY) === false) {
+        //             ghost.moveRight();
+        //         }
+        //     } else if (randomNumber === 3) {
+        //         if (isObstacleGhost(store, ghostX - 1, ghostY) === false) {
+        //             ghost.moveLeft();
+        //         }
+        //     }
+        // }
     }
 }
 
@@ -631,6 +634,7 @@ function gameOver() {
         document.querySelector(".alert").innerHTML = "Press F5 to start again";
     }
     pauseStatus = true;
+    gameOverStatus = true;
     ghost1.over = false;
     ghost2.over = false;
     ghost3.over = false;
@@ -652,6 +656,7 @@ function win() {
         winSound.play();
     }
     pauseStatus = true;
+    gameOverStatus = true;
     ghost1.over = false;
     ghost2.over = false;
     ghost3.over = false;
