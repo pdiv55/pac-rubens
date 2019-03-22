@@ -37,7 +37,7 @@ var store = [
     [1, 8, 8, 8, 1, 0, 0, 0, 5, 2, 2, 2, 6, 0, 0, 0, 1, 8, 8, 8, 1],
     [5, 2, 2, 2, 2, 2, 4, 0, 0, 0, 0, 0, 0, 0, 3, 2, 2, 2, 2, 2, 6],
     [8, 0, 0, 0, 0, 0, 1, 0, 3, 2, 2, 2, 4, 0, 1, 0, 0, 0, 0, 0, 8],
-    [3, 2, 2, 2, 2, 12, 1, 0, 5, 2, 2, 2, 6, 0, 1, 12, 2, 2, 2, 2, 4],
+    [3, 2, 2, 2, 2, 0, 1, 0, 5, 2, 2, 2, 6, 0, 1, 0, 2, 2, 2, 2, 4],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 2, 2, 4, 0, 2, 2, 2, 0, 1, 0, 2, 2, 2, 0, 3, 2, 2, 0, 1],
     [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
@@ -147,6 +147,8 @@ var startStatus = false;
 var begginingSound = document.querySelector('#beggining-sound');
 var chompSound = document.querySelector('#chomp-sound');
 var deathSound = document.querySelector('#death-sound');
+var barkSound = document.querySelector('#bark-sound');
+var winSound = document.querySelector('#win-sound');
 
 // CHECK FUNCTIONS
 
@@ -158,14 +160,14 @@ function isObstacle(array, x, y) {
 }
 
 function isObstacleGhost(array, x, y) {
-    if (array[y][x] === 1 || array[y][x] === 2 || array[y][x] === 3 || array[y][x] === 4 || array[y][x] === 5 || array[y][x] === 6 || array[y][x] === 9 || array[y][x] === 10 || array[y][x] === 11 || array[y][x] === 12) {
+    if (array[y][x] === 1 || array[y][x] === 2 || array[y][x] === 3 || array[y][x] === 4 || array[y][x] === 5 || array[y][x] === 6 || array[y][x] === 9 || array[y][x] === 10 || array[y][x] === 11 || y === 16 && x === 5 || y === 16 && x === 15) {
         return true;
     }
     return false;
 }
 
 function isFood(array, x, y) {
-    if (array[y][x] === 0 || array[y][x] === 12) {
+    if (array[y][x] === 0) {
         return true;
     }
     return false;
@@ -544,7 +546,6 @@ function updateGrid(grid) {
     document.querySelector(".board").innerHTML = html;
 }
 
-
 function updateScore(newScore) {
     document.querySelector(".score").innerHTML = newScore;
 };
@@ -554,7 +555,7 @@ function ghostUpOrDown(ghost, dog) {
     var dogY = dog.y;
     var ghostX = ghost.x;
     var ghostY = ghost.y;
-    var randomNumber = Math.floor(Math.random * 3);
+    var randomNumber = Math.floor(Math.random() * 4);
 
     if (ghost.over === true) {
         if (ghostY > dogY) {
@@ -591,7 +592,7 @@ function ghostRightOrLeft(ghost, dog) {
     var dogX = dog.x;
     var ghostX = ghost.x;
     var ghostY = ghost.y;
-    var randomNumber = Math.floor(Math.random * 3);
+    var randomNumber = Math.floor(Math.random() * 4);
 
     if (ghost.over === true) {
         if (ghostX < dogX) {
@@ -646,14 +647,20 @@ function win() {
     function startAgain() {
         document.querySelector(".alert").innerHTML = "Press F5 to start again";
     }
+    function winSoundPlay() {
+        winSound.load();
+        winSound.play();
+    }
     pauseStatus = true;
     ghost1.over = false;
     ghost2.over = false;
     ghost3.over = false;
     rubens.className = "rubens-happy"
     var pacdogWin = new PacDog(winGrid);
+    barkSound.load();
+    barkSound.play();
     window.setTimeout(updateGrid, 2000, pacdogWin.grid);
     window.setTimeout(startAgain, 2000);
+    window.setTimeout(winSoundPlay, 2000);
 }
 
-// SOUNDS
